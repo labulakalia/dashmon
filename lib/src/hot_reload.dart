@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:watcher/watcher.dart';
 
-class Dashmon {
+class HotReload {
   late Process _process;
   final List<String> args;
 
@@ -13,7 +13,7 @@ class Dashmon {
   bool _isFvm = false;
   bool _isAttach = false;
 
-  Dashmon(this.args) {
+  HotReload(this.args) {
     _parseArgs();
   }
 
@@ -34,8 +34,8 @@ class Dashmon {
   }
 
   Future<void> _runUpdate() async {
-    await Future.delayed(const Duration(milliseconds: 500));
     _process.stdin.write('r');
+    await Future.delayed(Duration(milliseconds: 100));
   }
 
   void _print(String line) {
@@ -77,7 +77,6 @@ class Dashmon {
         if (_throttler == null) {
           _throttler = _runUpdate();
           _throttler?.then((_) {
-            print('Sent reload request...');
             _throttler = null;
           });
         }
