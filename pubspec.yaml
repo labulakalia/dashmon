@@ -1,6 +1,6 @@
 name: flutter_hot_reload
 description: A cli tool to run Flutter applications and auto hot reload it when files are changed
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/labulakalia/flutter_hot_reload
 
 executables:
