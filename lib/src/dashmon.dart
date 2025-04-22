@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:watcher/watcher.dart';
+
 class Dashmon {
   late Process _process;
   final List<String> args;
@@ -69,10 +71,9 @@ class Dashmon {
 
     _process.stderr.transform(utf8.decoder).forEach(_processError);
 
-    final currentDir = File('.');
-
-    currentDir.watch(recursive: true).listen((event) {
-      if (event.path.startsWith('./lib')) {
+    var watcher = DirectoryWatcher("./lib");
+    watcher.events.listen((data) {
+      if (data.path.endsWith('.dart')) {
         if (_throttler == null) {
           _throttler = _runUpdate();
           _throttler?.then((_) {
