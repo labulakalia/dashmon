@@ -61,11 +61,12 @@ class HotReload {
   }
 
   Future<void> start() async {
-    _process = await (_isFvm
-        ? Process.start(
-            'fvm', ['flutter', _isAttach ? 'attach' : 'run', ..._proxiedArgs])
-        : Process.start(
-            'flutter', [_isAttach ? 'attach' : 'run', ..._proxiedArgs]));
+    String cmd = _isFvm ? 'fvm' : 'flutter';
+    List<String> args = _isFvm
+        ? ['flutter', _isAttach ? 'attach' : 'run', ..._proxiedArgs]
+        : [_isAttach ? 'attach' : 'run', ..._proxiedArgs];
+    print("Flutter Hot Reload: $cmd ${args.join(' ')}");
+    _process = await (Process.start(cmd, args));
 
     _process.stdout.transform(utf8.decoder).forEach(_processLine);
 
